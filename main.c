@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <locale.h>
 #include <stdlib.h>
+#include <math.h>
 
 void counter (char text[], int *lettersResult, int *wordsResult, int *sentencesResult);
+int gridCalculation (int letters, int words, int sentences);
 
 int main(int argc, char const *argv[])
 {
@@ -18,8 +20,9 @@ int main(int argc, char const *argv[])
   int sentencesResult;
 
   counter(text, &lettersResult, &wordsResult, &sentencesResult);
-  printf("%i %i %i", lettersResult, wordsResult, sentencesResult);
 
+  int grid = gridCalculation(lettersResult, wordsResult, sentencesResult);
+  printf("Grade: %i", grid);
 
   return 0;
 }
@@ -46,4 +49,18 @@ void counter (char text[], int *lettersResult, int *wordsResult, int *sentencesR
   *lettersResult = letters;
   *wordsResult = words;
   *sentencesResult = sentences;
+}
+
+int gridCalculation (int letters, int words, int sentences) {
+
+  double avarageLettersPer100Words = (double) letters / words * 100;
+  double avarageSentencesPer100Words = (double) sentences / words * 100;
+
+  double L = avarageLettersPer100Words;
+  double S = avarageSentencesPer100Words;
+
+  double grid = 0.0588 * L - 0.296 * S - 15.8;
+  int integerGrid = round(grid);
+
+  return integerGrid;
 }
