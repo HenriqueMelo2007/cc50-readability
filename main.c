@@ -2,7 +2,7 @@
 #include <locale.h>
 #include <stdlib.h>
 
-int counter (char text[]);
+void counter (char text[], int *lettersResult, int *wordsResult, int *sentencesResult);
 
 int main(int argc, char const *argv[])
 {
@@ -13,11 +13,18 @@ int main(int argc, char const *argv[])
   printf("Texto: ");
   fgets(text, sizeof(text), stdin);
 
+  int lettersResult;
+  int wordsResult;
+  int sentencesResult;
+
+  counter(text, &lettersResult, &wordsResult, &sentencesResult);
+  printf("%i %i %i", lettersResult, wordsResult, sentencesResult);
+
 
   return 0;
 }
 
-int counter (char text[]) {
+void counter (char text[], int *lettersResult, int *wordsResult, int *sentencesResult) {
   int letters = 0;
   int words = 1;
   int sentences = 0;
@@ -31,8 +38,12 @@ int counter (char text[]) {
     else if ( character == 32 ) {
       words++;
     }
-    else if ( character == 33 || character == 43 || character == 63 ) {}
+    else if ( character == 33 || character == 46 || character == 63 ) {
+      sentences++;
+    }
   }
 
-  return letters, words, sentences;
+  *lettersResult = letters;
+  *wordsResult = words;
+  *sentencesResult = sentences;
 }
